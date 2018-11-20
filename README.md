@@ -74,10 +74,20 @@ As the card i scan are mostly dark in tone, they tend to lack brighter parts in 
     autocolor stage4/example.jpg stage5/example.jpg
 
 ### stage6
-soon tm
+The scanned cards are to be used in [OCTGN](http://octgn.net/), *a virtual table top [...] that supports custom card and board games. To my experience the scanned cards in octgn are usually 423x600 pixels or 600x423 pixels, depending on image orientation. This stage does just the rescaling job depending on the aspect ratio of the source image. So it's either:
+
+    aspect 600x423 -m pad -f Cosine stage5/example.jpg stage6/example.jpg
+
+or:
+
+    aspect 423x600 -m pad -f Cosine stage5/example.jpg stage6/example.jpg
+
+To maintain the aspect ratio, the image is padded equally on it's side/top/bottom edges.
 
 ### stage7
-soon tm
+This finalizes the process by copying the processed image and deleting the source file. Also all temporary files are being removed. And this is it:
+
+![destination.jpg](docimages/destination.jpg "final image result")
 
 # Processing order
 
