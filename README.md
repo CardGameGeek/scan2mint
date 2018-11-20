@@ -23,7 +23,7 @@ The `example.jpg` has a wide black area around the actual image. As i scan with 
 
 | source                                                                | stage1                                                      |
 |-----------------------------------------------------------------------|-------------------------------------------------------------|
-|![example.jpg](docimages/example_source.jpg "source files scaled down")| ![stage1.jpg](docimages/example_stage1.jpg "cropped")       |
+|![example.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_source.jpg "source files scaled down")| ![stage1.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage1.jpg "cropped")       |
 
 This is the same as calling the following imagemagick script
 
@@ -34,7 +34,7 @@ The image now needs some rotation. The scanner i use does have hardware and soft
 
 | stage1                                                          | map                                                    | stage2                                               |
 |-----------------------------------------------------------------|--------------------------------------------------------|------------------------------------------------------|
-|![stage1.jpg](docimages/example_stage1.jpg "stage1 scaled down") | ![map.jpg](docimages/example_stage2_map.jpg "FFT Map") |![stage2.jpg](docimages/example_stage2.jpg "cropped") |
+|![stage1.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage1.jpg "stage1 scaled down") | ![map.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage2_map.jpg "FFT Map") |![stage2.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage2.jpg "cropped") |
 
 The modified script is in `src/scripts` and is called the following way:
 
@@ -46,7 +46,7 @@ With a straight image the rest of the black border can be easily cropped. Same s
 
 | stage2                                                                | stage3                                                      |
 |-----------------------------------------------------------------------|-------------------------------------------------------------|
-|![stage2.jpg](docimages/example_stage2.jpg "stage2 scaled down")       | ![stage3.jpg](docimages/example_stage3.jpg "cropped")       |
+|![stage2.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage2.jpg "stage2 scaled down")       | ![stage3.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage3.jpg "cropped")       |
 
 The following command line is used:
 
@@ -57,8 +57,8 @@ A scanned image is just the digital representation on an analog medium, which in
 
 | stage3 (image and FFT-Map before processing)                          | stage4 (image and FFT-Map after processing                          |
 |-----------------------------------------------------------------------|---------------------------------------------------------------------|
-|![stage3.jpg](docimages/example_stage3_200.jpg "stage3 detail")        | ![stage4.jpg](docimages/example_stage4_200.jpg "stage4 detail")     |
-|![stage3map.jpg](docimages/example_stage4_map.jpg "stage3 fft map")    | ![stage4map.jpg](docimages/example_stage4_map2.jpg "stage4 fft map") |
+|![stage3.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage3_200.jpg "stage3 detail")        | ![stage4.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage4_200.jpg "stage4 detail")     |
+|![stage3map.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage4_map.jpg "stage3 fft map")    | ![stage4map.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage4_map2.jpg "stage4 fft map") |
 
 The call to notch including parameters:
 
@@ -69,7 +69,7 @@ As the card i scan are mostly dark in tone, they tend to lack brighter parts in 
 
 | stage4                                                                | stage4                                                        |
 |-----------------------------------------------------------------------|---------------------------------------------------------------|
-|![stage4.jpg](docimages/example_stage4.jpg "stage4 scaled down")       | ![stage5.jpg](docimages/example_stage5.jpg "color corrected") |
+|![stage4.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage4.jpg "stage4 scaled down")       | ![stage5.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/example_stage5.jpg "color corrected") |
 
     autocolor stage4/example.jpg stage5/example.jpg
 
@@ -87,13 +87,13 @@ To maintain the aspect ratio, the image is padded equally on it's side/top/botto
 ### stage7
 This finalizes the process by copying the processed image and deleting the source file. Also all temporary files are being removed. And this is it:
 
-![destination.jpg](docimages/destination.jpg "final image result")
+![destination.jpg](https://github.com/Warmduscher/scan2mint/raw/master/docimages/destination.jpg "final image result")
 
 # Processing order
 
 The container will scan the input directory for new files and add them to a queue. When a new file is detected the container will wait for three seconds to detect if more files are being added to the queue. Only when for a time period of three seconds no new files are detected, the processing will start. Up to a maximum of `BLOCKSIZE` files will then pushed through several stages of processing. All the images will be pushed through a stage, before processing to the next stage. Thus if you put a lot of files into the source directory, it will take a very long time before the first image shows up in the destination directory. If this bothers you, i'll suggest to start with small (if not single) batches of files first.
 
-## Licensing
+# Licensing
 No commercial use allowed. Most off the imagemagick wizardry is done through bash scripts from the cretive work of [Fred Winehouse](http://www.fmwconcepts.com/imagemagick/index.php). Please check his licensing terms for more information.
 
 
