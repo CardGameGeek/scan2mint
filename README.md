@@ -18,7 +18,7 @@ My personal scan process start by scanning the images through a document feeder 
 ### stage0
 This stages does nothing but copy the images frmo the source directory without any modification. This is done to ensure that the processing is not influenced by any file locks from in image viewer or other process still working in the source directory.
 
-## stage1
+### stage1
 The `example.jpg` has a wide black area around the actual image. As i scan with a fixed A6 document size in uncompressed `.tif` format, this results in a very large file (40MB). The first stage will automatically crop the image to reduce the file size and thus resulting in fewer pixels to process in later stages. There are some CPU intensive calculations to me made in later stages, which will scale on number of pixels. Removing excess pixels from the image will speed up the next stages significantly. To ensure that the crop doesn't eat into the actuall image, the fuzz value will be set to a very low value.
 
 | source                                                                | stage1                                                      |
@@ -29,17 +29,29 @@ This is the same as calling the following imagemagick script
 
      autotrim -c southwest -f 5 source/example.jpg stage1/example.jpg
 
-## stage2
+### stage2
 The image now needs some rotation. The scanner i use does have hardware and software correction mechanism for this problem. I found that both features do a great job on ordinary office documents, but not on the cards i have to scan. The card often have black horizontal and vertical lines, which are the same color as the card background. The scanner hardware and software solution needs to crop when deskewing an image to prevent a white background showing up. This auto cropping tends to eat into my scans from time to time. Among Freds script is one calles textdeskew which does a Fourier Transformation and automatically identifies bright hot spots in the resulting map (the black dots). As text is usually printed in parallel lines, these hotspots should form a line in the map as well. He does a (recursive, sort of) linear regression
 to identify this line and rotation angle from the y-axis. This works perfect on text only scans as you can see on his homepage. But on cards there tends to be more graphics than text and the original `textdeskew` fails on these images. I modified his script a little to cope with this problem. As you can see in the example FFT Map, a lot of black circles are way of the single line. My modification calculates a virtual line for each hot spot through the center point of the map. For this line the std deviation is calculated against each other hot spot. To accumulate for vertical text and artifacts each hot spot is rotated by 90deg around the center point. It's std deviation is calculated against the virtual line as well. If the orginial hot spot has a std deviation of less than two, it is used for further calculation. Otherwise the 90deg rotated hot spot is checked for a std deviation of less than two. For each virtual line the number of hotspots (original and 90deg rotated) with a std deviation of two or less is summed up. The virtual lines with the highest score is then used to feed these hot spots into Freds linear regression. These "winning" hot spot are then marked with a smaller whith circle. A white circle within a larger black circle denotes an orginal hot spot, while a single white circle representis a 90 deg rotated hot spot.
 
 | stage1                                                          | map                                                    | stage2                                               |
 |-----------------------------------------------------------------|--------------------------------------------------------|------------------------------------------------------|
-|![example.jpg](docimages/example_stage1.jpg "stage1 scaled down")| ![map.jpg](docimages/example_stage2_map.jpg "FFT Map") |![stage2.jpg](docimages/example_stage2.jpg "cropped") |
+|![stage1.jpg](docimages/example_stage1.jpg "stage1 scaled down")| ![map.jpg](docimages/example_stage2_map.jpg "FFT Map") |![stage2.jpg](docimages/example_stage2.jpg "cropped") |
 
 The modified script is in `src/scripts` and is called the following way:
 
     deskew -c black -n 40 -t 10 -a 100 -r 20 stage1/example.jpg stage2/example.jpg
+
+
+### stage3
+With a straigt image the rest of the black border can be easily cropped. Same script as in stage1, but with a higher fuzz value. The cropping is less likely to eat into the image with clear straight edges.
+
+| stage2                                                                | stage3                                                      |
+|-----------------------------------------------------------------------|-------------------------------------------------------------|
+|![stage2.jpg](docimages/example_stage2.jpg "stage2 scaled down")       | ![stage3.jpg](docimages/example_stage3.jpg "cropped")       |
+
+The following command line is used:
+
+     autotrim -c southwest -f 35 source/example.jpg stage1/example.jpg
 
 ## Preprocessing order
 
