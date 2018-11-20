@@ -65,7 +65,13 @@ The call to notch including parameters:
     notch -c 200 -v 3 -h 2 -d 30 -s 25 stage3/example.jpg stage4/example.jpg
 
 ### stage5
-soon tm
+As the card i scan are mostly dark in tone, they tend to lack brighter parts in the histogram. Typical filter relying on spreading the histogram evenly between the black & white extremes tend to falsify the image. Especially with this card game a dark tone is most approiate to the setting of the game. My experiments with other color correcting script from Freds homepage lead to mixed results. So i choose a slight autocolor correction in favor for a little cooler (from a color perspective) but still dark look.
+
+| stage4                                                                | stage4                                                        |
+|-----------------------------------------------------------------------|---------------------------------------------------------------|
+|![stage4.jpg](docimages/example_stage4.jpg "stage4 scaled down")       | ![stage5.jpg](docimages/example_stage5.jpg "color corrected") |
+
+    autocolor stage4/example.jpg stage5/example.jpg
 
 ### stage6
 soon tm
