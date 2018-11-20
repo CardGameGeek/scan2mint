@@ -59,7 +59,7 @@ A scanned image is just the digital representation on an analog medium, which in
 | stage3 (image and FFT-Map before processing)                          | stage4 (image and FFT-Map after processing                          |
 |-----------------------------------------------------------------------|---------------------------------------------------------------------|
 |![stage3.jpg](docimages/example_stage3_200.jpg "stage3 detail")        | ![stage4.jpg](docimages/example_stage4_200.jpg "stage4 detail")     |
-|![stage3map.jpg](docimages/example_stage3_map.jpg "stage3 fft map")    | ![stage4map.jpg](docimages/example_stage4_map.jpg "stage4 fft map") |
+|![stage3map.jpg](docimages/example_stage4_map.jpg "stage3 fft map")    | ![stage4map.jpg](docimages/example_stage4_map2.jpg "stage4 fft map") |
 
 The call to notch including parameters:
 
