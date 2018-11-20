@@ -35,7 +35,7 @@ to identify this line and rotation angle from the y-axis. This works perfect on 
 
 | stage1                                                          | map                                                    | stage2                                               |
 |-----------------------------------------------------------------|--------------------------------------------------------|------------------------------------------------------|
-|![stage1.jpg](docimages/example_stage1.jpg "stage1 scaled down")| ![map.jpg](docimages/example_stage2_map.jpg "FFT Map") |![stage2.jpg](docimages/example_stage2.jpg "cropped") |
+|![stage1.jpg](docimages/example_stage1.jpg "stage1 scaled down") | ![map.jpg](docimages/example_stage2_map.jpg "FFT Map") |![stage2.jpg](docimages/example_stage2.jpg "cropped") |
 
 The modified script is in `src/scripts` and is called the following way:
 
@@ -51,9 +51,21 @@ With a straigt image the rest of the black border can be easily cropped. Same sc
 
 The following command line is used:
 
-     autotrim -c southwest -f 35 source/example.jpg stage1/example.jpg
+     autotrim -c southwest -f 35 stage2/example.jpg stage3/example.jpg
 
-## Preprocessing order
+### stage4
+A scanned image is just the digital representation on an analog medium, which in turn was produced from a digital source. While a monitor is capable of producing millions of colors (at least in theory), a printing press is not. Here the printing usually is done via rolling presses, one for each color (cyan, magenta, yellow and black) on white paper. The blending of different colors is done by halftoning each rolling press. Under a magnifying glass this can be seen as dither like patterns. When scanning such a print, it can lead to moiré like patterns. Some people suggest scanning the card on a flat bed print several times while rotating the card slightly on the glass between each scan. Afterwards you can manually crop and derotate the images. Then, in gimp or photoshop, put them in layers precisely above each other and calculate a median between all layers. While this gives good result, this can't be done in an automated process. Here again i found a script in Freds library: `notch`. It transforms an image via FFT into its frequency domain. There each regular patterns show as star like objects. These can be filtered out and the resulting map can be applied to the image without losing to much sharpness in the process.
+
+| stage3 (image and FFT-Map before processing)                          | stage4 (image and FFT-Map after processing                          |
+|-----------------------------------------------------------------------|---------------------------------------------------------------------|
+|![stage3.jpg](docimages/example_stage3_200.jpg "stage3 detail")        | ![stage4.jpg](docimages/example_stage4_200.jpg "stage4 detail")     |
+|![stage3map.jpg](docimages/example_stage3_map.jpg "stage3 fft map")    | ![stage4map.jpg](docimages/example_stage4_map.jpg "stage4 fft map") |
+
+The call to notch including parameters:
+
+    notch -c 200 -v 3 -h 2 -d 30 -s 25 stage3/example.jpg stage4/example.jpg
+
+# Processing order
 
 The container will scan the input directory for new files and add them to a queue. When a new file is detected the container will wait for three seconds to detect if more files are being added to the queue. Only when for a time period of three seconds no new files are detected, the processing will start. Up to a maximum of `BLOCKSIZE` files will then pushed through several stages of processing. All the images will be pushed through a stage, before processing to the next stage. Thus if you put a lot of files into the source directory, it will take a very long time before the first image shows up in the destination directory. If this bothers you, i'll suggest to start with small (if not single) batches of files first.
 
