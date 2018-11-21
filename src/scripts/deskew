@@ -26,10 +26,10 @@
 # 
 ####
 #
-# USAGE: textdeskew [-n number] [-r radius ] [-m metric] [-a attenuate]  
+# USAGE: deskew [-n number] [-r radius ] [-m metric] [-a attenuate]  
 # [-l logval] [-c color] [-t trimval] [-p padval] infile outfile1 [outfile2]
 #
-# USAGE: textdeskew [-h or -help]
+# USAGE: deskew [-h or -help]
 # 
 # OPTIONS:
 #
@@ -115,6 +115,7 @@
 # nor that trapping of inconsistent parameters is complete and 
 # foolproof. Use At Your Own Risk. 
 # 
+# minor additiona from Mike Hofmann 21.11.2018
 ######
 #
 
