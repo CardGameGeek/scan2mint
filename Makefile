@@ -5,7 +5,7 @@ all: Dockerfile.done
 
 
 Dockerfile.done: Dockerfile src/*
-	docker build -t scan2mint .
+	docker build --build-arg APTCACHE=http://192.168.1.3:3142 -t scan2mint .
 	touch Dockerfile.done
 
 .PHONY: run

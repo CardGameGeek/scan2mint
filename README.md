@@ -94,5 +94,14 @@ This finalizes the process by copying the processed image and deleting the sourc
 The container will scan the input directory for new files and add them to a queue. When a new file is detected the container will wait for three seconds to detect if more files are being added to the queue. Only when for a time period of three seconds no new files are detected, the processing will start. Up to a maximum of `BLOCKSIZE` files will then pushed through several stages of processing. All the images will be pushed through a stage, before processing to the next stage. Thus if you put a lot of files into the source directory, it will take a very long time before the first image shows up in the destination directory. If this bothers you, i'll suggest to start with small (if not single) batches of files first.
 
 # Licensing
-No commercial use allowed. Most off the imagemagick wizardry is done through bash scripts from the creative work of [Fred Winehouse](http://www.fmwconcepts.com/imagemagick/index.php). Please check his licensing terms for more information.
+##
+No commercial use allowed. 
+This container makes use of several other projects. You must also follow the license terms of these projects. They are the Scripts of Fred Weinhaus (see below), Imagemagick, Redis, Incron, GNU Make.
+
+## Fred Weinhaus Imagemagick Scripts
+Copyright © Fred Weinhaus
+My scripts are available *free of charge for non-commercial (non-profit) use, ONLY.*
+__For use of my scripts in commercial (for-profit) environments or non-free applications, please contact me (Fred Weinhaus) for licensing arrangements. My email address is fmw at alink dot net.__
+If you: 1) redistribute, 2) incorporate any of these scripts into other free applications or 3) reprogram them in another scripting language, then you *must contact me for permission*, especially if the result might be used in a commercial or for-profit environment.
+Usage, whether stated or not in the script, is restricted to the above licensing arrangements. It is also subject, in a subordinate manner, to the ImageMagick license, which can be found at: [http://www.imagemagick.org/script/license.php](http://www.imagemagick.org/script/license.php)
 

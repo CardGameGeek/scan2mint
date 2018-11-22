@@ -1,5 +1,7 @@
-# Download imagemagick script from Fred Winehouse
-FROM debian:latest as fredwinehouse
+# Download imagemagick script from Fred Weinhaus
+FROM debian:latest as fredweinhaus
+ARG APTCACHE
+ENV http_proxy $APTCACHE
 WORKDIR /app
 RUN apt update && apt install curl --no-install-recommends --ignore-missing --quiet --assume-yes
 RUN mkdir -p /app/scripts
@@ -26,8 +28,8 @@ RUN curl --output /app/scripts/textdeskew --silent --show-error --url "http://ww
 RUN curl --output /app/scripts/xtract --silent --show-error --url "http://www.fmwconcepts.com/imagemagick/downloadcounter.php?scriptname=xtract&dirname=xtract"
 COPY src/scripts/deskew /app/scripts/deskew
 RUN chmod 755 /app/scripts/*
-RUN curl --output /app/scripts/fredwinehouse_license.html --silent --show-error --url "http://www.fmwconcepts.com/imagemagick/index.php"
-RUN echo "The scripts in this folder are the creative work of Fred Winehouse. Information about distribution and reuse of his scripts can be found here: http://www.fmwconcepts.com/imagemagick/index.php" >> /app/scripts/license.md
+RUN curl --output /app/scripts/fredweinhaus_license.html --silent --show-error --url "http://www.fmwconcepts.com/imagemagick/index.php"
+RUN echo "The scripts in this folder are the creative work of Fred Weinhaus. Information about distribution and reuse of his scripts can be found here: http://www.fmwconcepts.com/imagemagick/index.php" >> /app/scripts/license.md
 
 
 # Prepare Directory structure
@@ -60,6 +62,8 @@ COPY src/incron.d/scan2mint incron/incron.d/scan2mint
 #       alltogether, so this isn't a general solution for fusing several services into
 #       one image.
 FROM debian:latest as apt
+ARG APTCACHE
+ENV http_proxy $APTCACHE
 COPY src/dpkg.cfg.d/ignore_trash /etc/dpkg/dpkg.cfg.d
 RUN apt update && \
     apt install --no-install-recommends --ignore-missing --quiet --assume-yes \
@@ -85,11 +89,6 @@ RUN apt update && \
     apt install --no-install-recommends --ignore-missing --quiet --assume-yes \
 		supervisor && \
     rm -rf /var/lib/apt/lists/*
-RUN apt update && \
-    apt install --no-install-recommends --ignore-missing --quiet --assume-yes \
-		procps \
-		vim && \
-    rm -rf /var/lib/apt/lists/*
 # make incrond from source (0.5.12) and hopefully install over apted version (0.5.10)
 RUN apt update && \
     apt install --no-install-recommends --ignore-missing --quiet --assume-yes \
@@ -107,8 +106,10 @@ RUN apt update && \
     apt remove --quiet --assume-yes \
 		ca-certificates \
                 curl \
-                g++
-# cleanup unnecessaty packages
+                g++ && \
+    apt autoremove --quiet --assume-yes && \
+    rm -rf /var/lib/apt/lists/*
+# cleanup unnecessaty packages, and no this isn't a duplicate of the step above
 RUN apt update && \
     apt autoremove --quiet --assume-yes && \
     rm -rf /var/lib/apt/lists/*
@@ -119,10 +120,10 @@ RUN apt update && \
 # Blend everything together
 FROM apt
 LABEL description="scan2mint runs a series of filter scripts on scanned gaming or sports cards."
-LABEL license="All imagemagick scripts are written by Fred Winehouse. Please refer to http://www.fmwconcepts.com/imagemagick/index.php for his license information."
+LABEL license="All imagemagick scripts are written by Fred Weinhaus. Please refer to http://www.fmwconcepts.com/imagemagick/index.php for his license information."
 LABEL maintainer="mike.hofmann@webax.de"
 WORKDIR /app
-COPY --from=fredwinehouse /app .
+COPY --from=fredweinhaus /app .
 COPY --from=preperation /app .
 COPY --from=configuration /etc /etc
 COPY --from=preperation /app .
