@@ -7,7 +7,7 @@ This repository builds an Docker container. The container watches a source direc
 ## Docker
 
 * Bind a source volume to the `/app/source` directory inside the container. This is where the source images will be placed. i.e. add this to your docker run command line: ` --mount type=bind,source=/mysmbshare/scan/source,target=/app/source`
-* Also bind a destination volume to `/app/destination`. The container will write the processed images there. i.e. add this to your docker run command line: `--mount type=bind,source="$(CURDIR)"/source,target=/app/source`
+* Also bind a destination volume to `/app/destination`. The container will write the processed images there. i.e. add this to your docker run command line: `--mount type=bind,source="$(CURDIR)"/destination,target=/app/destination`
 * Optionally you can set an environement variable `NUMPROCESSES` to the maximum number of processes the container may spawn simultaneously. __WARNING__: If you set this to value higher value than the available cores/threads in your host maschine, this will likely result in a high load on the host. The default is set to 4.
 * Also you can set `BLOCKSIZE` to the amount of images the container should process at the same time. The default is set to 100. See more on this in the processing section below.
 
